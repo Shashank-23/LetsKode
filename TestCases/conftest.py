@@ -1,11 +1,23 @@
 import pytest
 from selenium import webdriver
 
-@pytest.fixture()
-def initialize():
+@pytest.fixture(scope="module")
+def launchBrowser():
     baseURL = "https://letskodeit.teachable.com/"
-    driver = webdriver.Chrome("C:\\Users\\e01710\\PycharmProjects\\Flipkart\\Resources\\chromedriver.exe")
+    browserName = "chrome"
+
+    if browserName is "chrome":
+        print("Running tests on Google Chrome")
+        driver = webdriver.Chrome("C:\\Users\\e01710\\PycharmProjects\\LetsKode\\Resources\\chromedriver.exe")
+    elif browserName is "firefox":
+        print("Running tests on Mozilla Firefox")
+        driver = webdriver.Firefox("C:\\Users\\e01710\\PycharmProjects\\LetsKode\\Resources\\geckodriver.exe")
+    else:
+        print("Browser Not Specified")
+        exit(0)
+
     driver.get(baseURL)
-    print("Running tests on chrome")
-    driver.implicitly_wait(10)
+
+    yield driver
+    driver.quit()
 

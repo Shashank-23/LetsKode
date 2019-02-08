@@ -1,7 +1,5 @@
-import pytest
-import unittest
-from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 class framework_Utility():
 
@@ -17,18 +15,32 @@ class framework_Utility():
          }
          return switcher.get(locatorName)
 
+    def waitforXseconds(self,seconds):
+        self.driver.implicitly_wait(seconds)
+
+    # def waitForElementVisibility(self,locatorName, locatorValue):
+    #     wait = WebDriverWait(self.driver, 10, poll_frequency=0.5)
+    #     wait.until(EC.)
+
     def getElement(self,locatorName, locatorValue):
-         print(self.getByType(locatorName))
-         print(locatorValue)
+         # print(self.getByType(locatorName))
+         # print(locatorValue)
          byType = self.getByType(locatorName)
          element = self.driver.find_element(byType,locatorValue)
          return element
 
 
     def getElements(self, locatorName, locatorValue):
-         return self.driver.find_elements(self.getByType(locatorName),locatorValue)
+        byType = self.getByType(locatorName)
+        element = self.driver.find_elements(byType, locatorValue)
+        return element
 
     def clickElement(self, locatorName, locatorValue):
-        print("Running clickElemet")
-        self.getElement(locatorName, locatorValue).click()
+        # print("Running clickElement")
+        element = self.getElement(locatorName, locatorValue)
+        element.click()
 
+    def enterValue(self, locatorName, locatorValue, data):
+        element = self.getElement(locatorName, locatorValue)
+        element.clear()
+        element.send_keys(data)
